@@ -18,7 +18,7 @@ class MoviesController extends Controller
     public function index()
     {
         $import = new ImportFilmsData();
-        $importPopularMovies = $import->client->request('GET', 'films/top?type=TOP_100_POPULAR_FILMS&page=1', [
+        $importPopularMovies = $import->client->request('GET', 'v2.2/films/top?type=TOP_100_POPULAR_FILMS&page=1', [
             'headers' => [
                 'X-API-KEY' => config('services.knp.secret'),
                 'Content-Type' => 'application/json',
@@ -30,7 +30,7 @@ class MoviesController extends Controller
         $currentTime->subMonth();
         $subMonth = $currentTime->format('F');
         $subYear = $currentTime->format('Y');
-        $premierUri = 'films/premieres?year=' . $subYear . '&month=' . $subMonth;
+        $premierUri = 'v2.2/films/premieres?year=' . $subYear . '&month=' . $subMonth;
 
         $importPremieres = $import->client->request('GET', $premierUri, [
             'headers' => [
@@ -77,7 +77,7 @@ class MoviesController extends Controller
     public function show($id)
     {
         $importMoviesData = new ImportFilmsData();
-        $importMovie = $importMoviesData->client->request('GET', 'films/'.$id, [
+        $importMovie = $importMoviesData->client->request('GET', 'v2.2/films/'.$id, [
             'headers' => [
                 'X-API-KEY' => config('services.knp.secret'),
                 'Content-Type' => 'application/json',
@@ -90,7 +90,7 @@ class MoviesController extends Controller
                 'Content-Type' => 'application/json',
             ]
         ]);
-        $importMovieImages = $importMoviesData->client->request('GET', 'films/'.$id.'/images?type=STILL&page=1', [
+        $importMovieImages = $importMoviesData->client->request('GET', 'v2.2/films/'.$id.'/images?type=STILL&page=1', [
             'headers' => [
                 'X-API-KEY' => config('services.knp.secret'),
                 'Content-Type' => 'application/json',
