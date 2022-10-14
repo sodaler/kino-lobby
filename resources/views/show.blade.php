@@ -42,78 +42,103 @@
                         @endforeach
                     </div>
                 </div>
-
                 <div class="mt-12">
-                    <button class="flex items-center bg-orange-400 text-gray-900 rounded font-semibold px-5
+                    <a href="#watchMovie">
+                        <button class="btn flex items-center bg-orange-400 text-gray-900 rounded font-semibold px-5
                         py-4 hover:bg-orange-500 transition ease-in-out duration-150r">
-                        <svg class="w-6 fill-current" width="24" height="24" viewBox="0 0 24 24">
-                            <path
-                                d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                        </svg>
-                        <span class="ml-2">Play Trailer</span>
-                    </button>
+                            <svg class="w-6 fill-current" width="24" height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            </svg>
+                            <span class="ml-2">Смотреть фильм</span>
+                        </button>
+                    </a>
                 </div>
             </div>
-        </div>
-    </div> <!-- end movie-info -->
+        </div> <!-- end movie-info -->
 
-    <div class="movie-cast border-b border-gray-800">
-        <div class="container mx-auto px-4 py-16">
-            <h2 class="text-4xl font-semibold">{{ $movie['nameRu'] . ' | Смотреть онлайн' }}</h2>
-            <div class="shadow-cyan-50">
-                <div class="mt-8">
-                    <div id="kinoplayertop" data-kinopoisk="{{ $id }}"
-                         data-shearch="false"></div>
-                    <script src="//kinoplayer.top/top.js"></script>
+        <div class="movie-cast border-b border-gray-800" id="watchMovie">
+            <div class="container mx-auto px-4 py-16">
+                <h2 class="text-4xl font-semibold">{{ $movie['nameRu'] . ' | Смотреть онлайн' }}</h2>
+                <div class="shadow-cyan-50">
+                    <div class="mt-8">
+                        <div id="kinoplayertop" data-kinopoisk="{{ $id }}"
+                             data-shearch="false"></div>
+                        <script src="//kinoplayer.top/top.js"></script>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div> <!-- end movie-cast -->
+        </div> <!-- end movie-cast -->
 
 
-    <div class="movie-cast border-b border-gray-800">
-        <div class="container mx-auto px-4 py-16">
-            <h2 class="text-4xl font-semibold">Ключевой состав</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                @foreach($staff as $cast)
-                    @if($loop->index < 5)
-                        @if(!empty($cast['nameRu']))
-                            <div class="mt-8">
-                                <a href="#">
-                                    <img src="{{ $cast['posterUrl'] }}" alt="parasite"
-                                         class="hover:opacity-75 transition ease-in-out duration-150 object-contain w-96 h-96">
-                                </a>
-                                <div class="mt-2">
-                                    <a href="#" class="text-lg mt-2 hover:text-gray:300">{{ $cast['nameRu'] }}</a>
-                                    <div class="text-sm text-gray-400">
-                                        {{ mb_substr($cast['professionText'], 0, -1) }}
+        <div class="movie-cast border-b border-gray-800">
+            <div class="container mx-auto px-4 py-16">
+                <h2 class="text-4xl font-semibold">Ключевой состав</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                    @foreach($staff as $cast)
+                        @if($loop->index < 5)
+                            @if(!empty($cast['nameRu']))
+                                <div class="mt-8">
+                                    <a href="#">
+                                        <img src="{{ $cast['posterUrl'] }}" alt="parasite"
+                                             class="hover:opacity-75 transition ease-in-out duration-150 object-contain w-96 h-96">
+                                    </a>
+                                    <div class="mt-2">
+                                        <a href="#" class="text-lg mt-2 hover:text-gray:300">{{ $cast['nameRu'] }}</a>
+                                        <div class="text-sm text-gray-400">
+                                            {{ mb_substr($cast['professionText'], 0, -1) }}
+                                        </div>
                                     </div>
                                 </div>
+                            @endif
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </div> <!-- end movie-cast -->
+
+        <div class="movie-images" x-data="{ isOpen: false, image: '' }">
+            <div class="container mx-auto px-4 py-16">
+                <h2 class="text-4xl font-semibold">Изображения</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    @foreach($movieImgs['items'] as $img)
+                        @if($loop->index < 9)
+                            <div class="mt-8">
+                                <a href="#"
+                                    @click.prevent="
+                                        isOpen = true
+                                        image='{{ $img['imageUrl'] }}'
+                                        "
+                                >
+                                    <img src="{{ $img['imageUrl'] }}" alt="parasite"
+                                         class="hover:opacity-75 transition ease-in-out duration-150">
+                                </a>
                             </div>
                         @endif
-                    @endif
-                @endforeach
-            </div>
-        </div>
-    </div> <!-- end movie-cast -->
-
-    <div class="movie-images">
-        <div class="container mx-auto px-4 py-16">
-            <h2 class="text-4xl font-semibold">Изображения</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                @foreach($movieImgs['items'] as $img)
-                    @if($loop->index < 9)
-                        <div class="mt-8">
-                            <a href="#">
-                                <img src="{{ $img['imageUrl'] }}" alt="parasite"
-                                     class="hover:opacity-75 transition ease-in-out duration-150">
-                            </a>
+                    @endforeach
+                </div>
+                <div
+                    style="background-color: rgba(0, 0, 0, .5);"
+                    class="fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto"
+                    x-show="isOpen"
+                >
+                    <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
+                        <div class="bg-gray-900 rounded">
+                            <div class="flex justify-end pr-4 pt-2">
+                                <button
+                                    @click="isOpen = false"
+                                    @keydown.escape.window="isOpen = false"
+                                    class="text-3xl leading-none hover:text-gray-300">&times;
+                                </button>
+                            </div>
+                            <div class="modal-body px-8 py-8">
+                                <img :src="image" alt="poster">
+                            </div>
                         </div>
-                    @endif
-                @endforeach
-            </div>
+                    </div>
+                </div>
+            </div> <!-- end movie-images -->
         </div>
-    </div> <!-- end movie-images -->
 
 
 
