@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Components\ImportFilmsData;
 use App\Components\ImportStaffData;
+use App\ViewModels\MoviesViewModel;
+use App\ViewModels\MovieViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
@@ -41,10 +43,17 @@ class MoviesController extends Controller
         $premiers = json_decode($importPremieres->getBody()->getContents(), true);
         $premiersSegment = array_slice($premiers['items'], 0, 20);
 
-        return view('index', [
-            'popularMovies' => $popularMovies['films'],
-            'premiers' => $premiersSegment
-        ]);
+//        return view('index', [
+//            'popularMovies' => $popularMovies['films'],
+//            'premiers' => $premiersSegment
+//        ]);
+
+        $viewModel = new MoviesViewModel(
+            $popularMovies['films'],
+            $premiersSegment
+        );
+
+        return view('index', $viewModel);
     }
 
     /**
@@ -100,8 +109,16 @@ class MoviesController extends Controller
         $staff = json_decode($importStaff->getBody()->getContents(), true);
         $movieImgs = json_decode($importMovieImages->getBody()->getContents(), true);
 
-//        dump($movieImgs);
-        return view('show', compact('id', 'movie', 'staff', 'movieImgs'));
+//        dump($movie);
+//        return view('show', compact('movie', 'staff', 'movieImgs'));
+
+        $viewModel = new MovieViewModel(
+            $movie,
+            $staff,
+            $movieImgs
+        );
+
+        return view('show', $viewModel);
     }
 
     /**

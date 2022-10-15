@@ -17,9 +17,7 @@
                     <span class="mx-2">|</span>
                     <span>{{ $movie['year'] }}</span>
                     <span class="mx-2">|</span>
-                    <span> @foreach($movie['genres'] as $genre)
-                            {{ $genre['genre'] }}@if (!$loop->last), @endif
-                        @endforeach</span>
+                    <span>{{ $movie['genres'] }}</span>
                 </div>
 
                 <p class="text-gray-300 mt-8">
@@ -29,15 +27,13 @@
                 <div class="mt-12">
                     <h4 class="text-white font-semibold">Ключевой состав</h4>
                     <div class="flex mt-4">
-                        @foreach($staff as $crew)
-                            @if ($loop->index < 2)
-                                @if(!empty($crew['nameRu']))
-                                    <div class="mr-8">
-                                        <div>{{ $crew['nameRu'] }}</div>
-                                        <div
-                                            class="text-sm text-gray-400">{{ mb_substr($crew['professionText'], 0, -1) }}</div>
-                                    </div>
-                                @endif
+                        @foreach($staff['crew'] as $crew)
+                            @if(!empty($crew['nameRu']))
+                                <div class="mr-8">
+                                    <div>{{ $crew['nameRu'] }}</div>
+                                    <div
+                                        class="text-sm text-gray-400">{{ mb_substr($crew['professionText'], 0, -1) }}</div>
+                                </div>
                             @endif
                         @endforeach
                     </div>
@@ -62,7 +58,7 @@
                 <h2 class="text-4xl font-semibold">{{ $movie['nameRu'] . ' | Смотреть онлайн' }}</h2>
                 <div class="shadow-cyan-50">
                     <div class="mt-8">
-                        <div id="kinoplayertop" data-kinopoisk="{{ $id }}"
+                        <div id="kinoplayertop" data-kinopoisk="{{ $movie['kinopoiskId'] }}"
                              data-shearch="false"></div>
                         <script src="//kinoplayer.top/top.js"></script>
                     </div>
@@ -75,22 +71,20 @@
             <div class="container mx-auto px-4 py-16">
                 <h2 class="text-4xl font-semibold">Ключевой состав</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                    @foreach($staff as $cast)
-                        @if($loop->index < 5)
-                            @if(!empty($cast['nameRu']))
-                                <div class="mt-8">
-                                    <a href="#">
-                                        <img src="{{ $cast['posterUrl'] }}" alt="parasite"
-                                             class="hover:opacity-75 transition ease-in-out duration-150 object-contain w-96 h-96">
-                                    </a>
-                                    <div class="mt-2">
-                                        <a href="#" class="text-lg mt-2 hover:text-gray:300">{{ $cast['nameRu'] }}</a>
-                                        <div class="text-sm text-gray-400">
-                                            {{ mb_substr($cast['professionText'], 0, -1) }}
-                                        </div>
+                    @foreach($staff['cast'] as $cast)
+                        @if(!empty($cast['nameRu']))
+                            <div class="mt-8">
+                                <a href="#">
+                                    <img src="{{ $cast['posterUrl'] }}" alt="parasite"
+                                         class="hover:opacity-75 transition ease-in-out duration-150 object-contain w-96 h-96">
+                                </a>
+                                <div class="mt-2">
+                                    <a href="#" class="text-lg mt-2 hover:text-gray:300">{{ $cast['nameRu'] }}</a>
+                                    <div class="text-sm text-gray-400">
+                                        {{ mb_substr($cast['professionText'], 0, -1) }}
                                     </div>
                                 </div>
-                            @endif
+                            </div>
                         @endif
                     @endforeach
                 </div>
@@ -101,16 +95,16 @@
             <div class="container mx-auto px-4 py-16">
                 <h2 class="text-4xl font-semibold">Изображения</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                    @foreach($movieImgs['items'] as $img)
-                        @if($loop->index < 9)
+                    @foreach($movieImgs['imageUrls'] as $img)
+                        @if(!empty($img['imageUrl']))
                             <div class="mt-8">
                                 <a href="#"
-                                    @click.prevent="
+                                   @click.prevent="
                                         isOpen = true
                                         image='{{ $img['imageUrl'] }}'
                                         "
                                 >
-                                    <img src="{{ $img['imageUrl'] }}" alt="parasite"
+                                    <img src="{{ $img['imageUrl'] }}" alt="Изображение"
                                          class="hover:opacity-75 transition ease-in-out duration-150">
                                 </a>
                             </div>
