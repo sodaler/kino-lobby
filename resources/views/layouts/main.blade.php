@@ -5,10 +5,25 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Movie App</title>
+    <title>KinoLobby</title>
     @vite('resources/css/main.css')
     <livewire:styles />
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
 </head>
 <body class="font-sans bg-gray-900 text-white">
     <nav class="border-b border-gray-800">
@@ -23,10 +38,13 @@
                     <a href="{{ route('movies.index') }}" class="hover:text-gray-300">Фильмы</a>
                 </li>
                 <li class="md:ml-6 mt-3 md:mt-0">
-                    <a href="#" class="hover:text-gray-300">TV Shows</a>
+                    <a href="#" class="hover:text-gray-300">Сериалы</a>
                 </li>
                 <li class="md:ml-6 mt-3 md:mt-0">
-                    <a href="#" class="hover:text-gray-300">Actors</a>
+                    <a href="{{ route('filter.index') }}" class="hover:text-gray-300">Навигатор</a>
+                </li>
+                <li class="md:ml-6 mt-3 md:mt-0">
+                    <a href="{{ route('actors.index') }}" class="hover:text-gray-300">Актеры</a>
                 </li>
             </ul>
             <div class="flex flex-col md:flex-row items-center">
@@ -41,6 +59,6 @@
     </nav>
     @yield('content')
     <livewire:scripts />
-    <script src="././node_modules/tw-elements/dist/js/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@ class ImportFilmsData
             // Base URI is used with relative requests
             'base_uri' => 'https://kinopoiskapiunofficial.tech/api/',
             // You can set any number of default request options.
-            'timeout'  => 5.0,
+            'timeout'  => 100.0,
             'verify' => false,
         ]);
     }

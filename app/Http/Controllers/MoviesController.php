@@ -20,7 +20,7 @@ class MoviesController extends Controller
     public function index()
     {
         $import = new ImportFilmsData();
-        $importPopularMovies = $import->client->request('GET', 'v2.2/films/top?type=TOP_100_POPULAR_FILMS&page=1', [
+        $importPopularMovies = $import->client->request('GET', 'v2.2/films/top?type=TOP_250_BEST_FILMS&page=1', [
             'headers' => [
                 'X-API-KEY' => config('services.knp.secret'),
                 'Content-Type' => 'application/json',
@@ -53,7 +53,7 @@ class MoviesController extends Controller
             $premiersSegment
         );
 
-        return view('index', $viewModel);
+        return view('movies.index', $viewModel);
     }
 
     /**
@@ -99,7 +99,13 @@ class MoviesController extends Controller
                 'Content-Type' => 'application/json',
             ]
         ]);
-        $importMovieImages = $importMoviesData->client->request('GET', 'v2.2/films/'.$id.'/images?type=STILL&page=1', [
+        $importMovieImages = $importMoviesData->client->request('GET', 'v2.2/films/'.$id.'/images?type=SCREENSHOT&page=1', [
+            'headers' => [
+                'X-API-KEY' => config('services.knp.secret'),
+                'Content-Type' => 'application/json',
+            ]
+        ]);
+        $importSimilarMovies = $importMoviesData->client->request('GET', 'v2.2/films/'.$id.'/similars', [
             'headers' => [
                 'X-API-KEY' => config('services.knp.secret'),
                 'Content-Type' => 'application/json',
@@ -107,6 +113,7 @@ class MoviesController extends Controller
         ]);
         $movie = json_decode($importMovie->getBody()->getContents(), true);
         $staff = json_decode($importStaff->getBody()->getContents(), true);
+        $similarMovies= json_decode($importSimilarMovies->getBody()->getContents(), true);
         $movieImgs = json_decode($importMovieImages->getBody()->getContents(), true);
 
 //        dump($movie);
@@ -115,10 +122,11 @@ class MoviesController extends Controller
         $viewModel = new MovieViewModel(
             $movie,
             $staff,
-            $movieImgs
+            $movieImgs,
+            $similarMovies
         );
 
-        return view('show', $viewModel);
+        return view('movies.show', $viewModel);
     }
 
     /**
