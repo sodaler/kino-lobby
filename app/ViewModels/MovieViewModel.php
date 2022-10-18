@@ -9,12 +9,14 @@ class MovieViewModel extends ViewModel
     public $movie;
     public $staff;
     public $movieImgs;
+    public $similarMovies;
 
-    public function __construct($movie, $staff, $movieImgs)
+    public function __construct($movie, $staff, $movieImgs, $similarMovies)
     {
         $this->movie = $movie;
         $this->staff = $staff;
         $this->movieImgs = $movieImgs;
+        $this->similarMovies = $similarMovies;
     }
 
     public function movie()
@@ -44,6 +46,15 @@ class MovieViewModel extends ViewModel
         ])->only([
             'imageUrls'
         ]);
+    }
+
+    public function similarMovies()
+    {
+        return collect($this->similarMovies['items'])->map(function ($movie) {
+            return collect($movie)->only([
+               'nameRu', 'filmId', 'posterUrl'
+            ]);
+        });
     }
 
 }

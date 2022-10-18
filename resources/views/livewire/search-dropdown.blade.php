@@ -2,7 +2,7 @@
     <input
         wire:model.debounce.500ms="search"
         type="text"
-        class="bg-gray-800 rounded-full w-64 px-4 pl-8 py-1 focus:outline-1 focus:shadow-sm"
+        class="bg-gray-800 rounded-full px-4 pl-8 py-1 focus:outline-1 focus:shadow-sm"
         placeholder="Поиск"
         x-ref="search"
         @keydown.window="
@@ -36,16 +36,20 @@
                                 <a href="{{ route('movies.show', $result['filmId']) }}"
                                    class="block hover:bg-gray-700 px-3 py-3 flex items-center transition ease-in-out
                                           duration-150"
-                                          @if($loop->last)
-                                            @keydown.tab="isOpen = false"
-                                          @endif
+                                   @if($loop->last)
+                                   @keydown.tab="isOpen = false"
+                                    @endif
                                 >
                                     @if ($result['posterUrlPreview'])
                                         <img src="{{ $result['posterUrlPreview'] }}" class="w-8" alt="poster">
                                     @else
                                         <img src="https://via.placeholder.com/50X75" alt="poster" class="w-8">
                                     @endif
-                                    <span class="ml-4">{{ $result['nameRu'] }}</span>
+                                    @if(array_key_exists('nameRu', $result))
+                                        <span class="ml-4">{{ $result['nameRu'] }}</span>
+                                        @else
+                                            <span class="ml-4">Без названия</span>
+                                        @endif
                                 </a>
                             </li>
                         @endforeach
